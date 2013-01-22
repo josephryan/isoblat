@@ -23,7 +23,7 @@ You may need to make baa.pl executable
 Next copy baa.pl to a directory in your path
 for example: /usr/local/bin:
 
-   sudo cp baa.pl /usr/local/bin/
+    sudo cp baa.pl /usr/local/bin/
 
 DEPENDENCIES
 ------------
