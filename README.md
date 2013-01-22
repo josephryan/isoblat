@@ -42,6 +42,10 @@ DEPENDENCIES
 
 This module requires Perl
 
+You will also want BLAT:
+
+    http://users.soe.ucsc.edu/~kent/src/
+
 COPYRIGHT AND LICENCE
 ------------
 
