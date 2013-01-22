@@ -15,6 +15,9 @@ INSTALLATION
 
 If your perl is not located in /usr/bin/perl 
 you need to change the first line of baa.pl
+for example to:
+
+    #!/usr/local/bin/perl
 
 You may need to make baa.pl executable
 
@@ -25,12 +28,22 @@ for example: /usr/local/bin:
 
     sudo cp baa.pl /usr/local/bin/
 
+RUN
+---
+
+    baa.pl [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] [--do_not_print_rearrangements] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
+
+for detailed documenation
+
+    baa.pl --help
+
 DEPENDENCIES
 ------------
 
 This module requires Perl
 
 COPYRIGHT AND LICENCE
+------------
 
 Copyright (C) 2012,2013 Joseph F. Ryan
 
