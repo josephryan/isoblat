@@ -3,6 +3,14 @@ baa.pl
 
 use BLAT to ASSESS an ASSEMBLY - this program parses the output of a BLAT run of transcriptome vs. a genome
 
+The output looks something like:
+
+<pre>Percentage of transcripts with a BLAT entry (27164/27315): 0.994471901885411
+Total % coverage of all positions (14238616 / 14485870): 0.982931366911342
+Average number of contigs per mapped transcript: 1.07377411279635
+Number of potential rearrangements = 122</pre>
+
+
 <pre># BAA stands for use BLAT to ASSESS an ASSEMBLY
 # Copyright (C) 2012,2013 Joseph F. Ryan
 #
