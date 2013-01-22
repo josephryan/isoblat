@@ -50,6 +50,7 @@ MAIN: {
     my $opt_help = 0;
     my $max_gap_to_consider_missing = $DEFAULT_MIN_TO_COUNT_AS_COVERAGE;
     my $min_to_count_as_coverage = $DEFAULT_MIN_TO_COUNT_AS_COVERAGE; 
+    my $do_not_print_rearrangements = 0;
 
     my $opt_results = Getopt::Long::GetOptions(  "version" => \$opt_version,
                "max_gap_to_consider_missing" => \$max_gap_to_consider_missing,
@@ -61,7 +62,7 @@ MAIN: {
     pod2usage({-exitval => 0, -verbose => 2}) if $opt_help;
     my $blat   = $ARGV[0] or die usage();
     my $fasta  = $ARGV[1] or die usage();
-
+    $REARRANGEMENTS_SUF = 0 if $do_not_print_rearrangements;
     print "# running version $VERSION of baa.pl\n";
     print "# run with this command: $0 @ARGV\n";
     print "# \$max_gap_to_consider_missing = $max_gap_to_consider_missing\n";
