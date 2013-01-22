@@ -3,7 +3,7 @@ baa.pl
 
 use BLAT to ASSESS an ASSEMBLY - this program parses the output of a BLAT run of transcriptome vs. a genome
 
-# BAA stands for use BLAT to ASSESS an ASSEMBLY
+<pre># BAA stands for use BLAT to ASSESS an ASSEMBLY
 # Copyright (C) 2012,2013 Joseph F. Ryan
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,3 +19,4 @@ use BLAT to ASSESS an ASSEMBLY - this program parses the output of a BLAT run of
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+</pre>
