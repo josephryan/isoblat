@@ -13,20 +13,11 @@ The output looks something like:
 INSTALLATION
 ------------
 
-If your perl is not located in /usr/bin/perl 
-you need to change the first line of baa.pl
-for example to:
+To install this script type the following:
 
-    #!/usr/local/bin/perl
-
-You may need to make baa.pl executable
-
-    chmod 755 baa.pl
-
-Next copy baa.pl to a directory in your path
-for example: /usr/local/bin:
-
-    sudo cp baa.pl /usr/local/bin/
+    perl Makefile.PL
+    make
+    make install
 
 RUN
 ---

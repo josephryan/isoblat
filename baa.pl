@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 # baa.pl 
 #
@@ -24,14 +24,13 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
-use Data::Dumper;
 
-our $VERSION = 0.07;
+our $VERSION = 0.08;
 our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
 
 # run "baa.pl --help" for detailed info on these parameters
 our $DEFAULT_MIN_TO_COUNT_AS_COVERAGE = 5;
-our $DEFAULT_MAX_GAP_TO_CONSIDER_MISSING = 5; # set to 0 to turn this off
+our $DEFAULT_MAX_GAP_TO_CONSIDER_MISSING = 5;
 
 # if the bam is sorted it is unnecessary to read the whole
 # blat file into memory and sort
@@ -404,7 +403,7 @@ Please report them to <josephryan@yahoo.com>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2012 Joseph F. Ryan 
+Copyright (C) 2012,2013 Joseph F. Ryan 
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
