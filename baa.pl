@@ -26,7 +26,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 our $VERSION = 0.08;
-our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
+our $AUTHOR  = 'Joseph F. Ryan <josephryan@yahoo.com>';
 
 # run "baa.pl --help" for detailed info on these parameters
 our $DEFAULT_MIN_TO_COUNT_AS_COVERAGE = 5;
