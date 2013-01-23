@@ -13,7 +13,7 @@ The output looks something like:
 INSTALLATION
 ------------
 
-To install this script type the following:
+To install this script and documentation type the following:
 
     perl Makefile.PL
     make
@@ -26,7 +26,7 @@ RUN
 
 for detailed documenation
 
-    baa.pl --help
+    perldoc baa.pl
 
 DEPENDENCIES
 ------------
