@@ -7,7 +7,7 @@ The output looks something like:
 
     Percentage of transcripts with a BLAT entry (15661/15752): 0.994222955815135
     Total % coverage of all positions (10303278 / 10491059): 0.982100853688841
-    Number of transcripts mapping to a single contig/scaffold: 14750 (0.941830023625567)
+    Number of transcripts mapping to a single contig/scaffold: (14750/15661) 0.941830023625567
     Average number of contigs/scaffolds per mapped transcript: 1.08715918523721
     Number of potential rearrangements = 153
 
