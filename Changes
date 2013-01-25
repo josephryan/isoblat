@@ -4,3 +4,6 @@ Revision history for Perl progrom baa.pl.
 	- original public version
 0.08  Wed Jan 23 2013
         - added Makefile.PL
+0.09 Fri Jan 25 18:37:55 CET 2013
+        - added Number of transcripts mapping to a single contig/scaffold
+

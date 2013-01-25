@@ -5,10 +5,11 @@ use BLAT to ASSESS an ASSEMBLY - this program parses the output of a BLAT run of
 
 The output looks something like:
 
-    Percentage of transcripts with a BLAT entry (27164/27315): 0.994471901885411
-    Total % coverage of all positions (14238616 / 14485870): 0.982931366911342
-    Average number of contigs per mapped transcript: 1.07377411279635
-    Number of potential rearrangements = 122
+    Percentage of transcripts with a BLAT entry (15661/15752): 0.994222955815135
+    Total % coverage of all positions (10303278 / 10491059): 0.982100853688841
+    Number of transcripts mapping to a single contig/scaffold: 14750 (0.941830023625567)
+    Average number of contigs/scaffolds per mapped transcript: 1.08715918523721
+    Number of potential rearrangements = 153
 
 INSTALLATION
 ------------

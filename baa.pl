@@ -1,4 +1,7 @@
-#!perl
+#!/usr/bin/perl
+
+eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
+    if 0; # not running under some shell
 
 # baa.pl 
 #
@@ -25,8 +28,8 @@ use warnings;
 use Getopt::Long;
 use Pod::Usage;
 
-our $VERSION = 0.08;
-our $AUTHOR  = 'Joseph F. Ryan <josephryan@yahoo.com>';
+our $VERSION = 0.09;
+our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
 
 # run "baa.pl --help" for detailed info on these parameters
 our $DEFAULT_MIN_TO_COUNT_AS_COVERAGE = 5;
@@ -136,8 +139,11 @@ sub print_stats {
     my $tmp_p = $tot_cov / $tot_len;
     print "Total % coverage of all positions ($tot_cov / $tot_len): $tmp_p\n";
 
+    $tmp_p = $counts{'one_ctg'} / $tot_mapped;
+    print "Number of transcripts mapping to a single contig/scaffold: $counts{'one_ctg'} ($tmp_p)\n";
+
     $tmp_p = $tot_ctgs / $tot_mapped;
-    print "Average number of contigs per mapped transcript: $tmp_p\n";
+    print "Average number of contigs/scaffolds per mapped transcript: $tmp_p\n";
 
     print "Number of potential rearrangements = $potential_rearrangements\n\n";
 
