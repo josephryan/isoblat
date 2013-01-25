@@ -140,7 +140,7 @@ sub print_stats {
     print "Total % coverage of all positions ($tot_cov / $tot_len): $tmp_p\n";
 
     $tmp_p = $counts{'one_ctg'} / $tot_mapped;
-    print "Number of transcripts mapping to a single contig/scaffold: $counts{'one_ctg'} ($tmp_p)\n";
+    print "Number of transcripts mapping to a single contig/scaffold: ($counts{'one_ctg'}/$tot_mapped) $tmp_p\n";
 
     $tmp_p = $tot_ctgs / $tot_mapped;
     print "Average number of contigs/scaffolds per mapped transcript: $tmp_p\n";
