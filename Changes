@@ -6,4 +6,5 @@ Revision history for Perl progrom baa.pl.
         - added Makefile.PL
 0.09 Fri Jan 25 18:37:55 CET 2013
         - added Number of transcripts mapping to a single contig/scaffold
-
+0.10 Tue Jan 29  Tue Jan 29 10:04:14 CET 2013
+        - reverted the shebang line #!perl (which gets cutomized by Makefile.PL)
