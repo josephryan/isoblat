@@ -38,7 +38,7 @@ You will also want BLAT:
 
     http://users.soe.ucsc.edu/~kent/src/
 
-COPYRIGHT AND LICENCE
+COPYRIGHT AND LICENSE
 ------------
 
 Copyright (C) 2012,2013 Joseph F. Ryan
