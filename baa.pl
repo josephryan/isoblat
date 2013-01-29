@@ -25,7 +25,7 @@ use warnings;
 use Getopt::Long;
 use Pod::Usage;
 
-our $VERSION = 0.09;
+our $VERSION = 0.10;
 our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
 
 # run "baa.pl --help" for detailed info on these parameters
@@ -59,8 +59,8 @@ MAIN: {
 
     $opt_version && version();
     pod2usage({-exitval => 0, -verbose => 2}) if $opt_help;
-    my $blat   = $ARGV[0] or die usage();
-    my $fasta  = $ARGV[1] or die usage();
+    my $blat   = $ARGV[0] or usage();
+    my $fasta  = $ARGV[1] or usage();
     $REARRANGEMENTS_SUF = 0 if $do_not_print_rearrangements;
     print "# running version $VERSION of baa.pl\n";
     print "# run with this command: $0 @ARGV\n";
