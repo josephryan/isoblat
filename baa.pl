@@ -2,9 +2,6 @@
 
 # baa.pl 
 #
-# BAA stands for use BLAT to ASSESS an ASSEMBLY
-# Copyright (C) 2012,2013 Joseph F. Ryan 
-#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -25,7 +22,7 @@ use warnings;
 use Getopt::Long;
 use Pod::Usage;
 
-our $VERSION = 0.11;
+our $VERSION = 0.12;
 our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
 
 # run "baa.pl --help" for detailed info on these parameters
@@ -80,8 +77,8 @@ sub print_stats {
     my $tot = shift;
 
     my $hits = scalar(keys(%{$rh_dat}));
-    my $perc = $hits / $tot;
-    print "Percentage of transcripts with a BLAT entry ($hits/$tot): $perc\n";
+    my $ratio = $hits / $tot;
+    print "Ratio of transcripts with a BLAT entry ($hits/$tot): $ratio\n";
 
     my %perc_cov_windows = ();
     my %counts = (); 
