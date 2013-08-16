@@ -1,7 +1,7 @@
 baa.pl
 ======
 
-use BLAT to ASSESS an ASSEMBLY - this program parses the output of a BLAT run of transcriptome vs. a genome
+use RNA transcripts to assess assembly - this program parses the output of a BLAT run of transcriptome vs. a genome
 
 The output looks something like:
 
@@ -9,7 +9,6 @@ The output looks something like:
     Total % coverage of all positions (10303278 / 10491059): 0.982100853688841
     Number of transcripts mapping to a single contig/scaffold: (14750/15661) 0.941830023625567
     Average number of contigs/scaffolds per mapped transcript: 1.08715918523721
-    Number of potential rearrangements = 153
 
 INSTALLATION
 ------------
@@ -23,7 +22,7 @@ To install this script and documentation type the following:
 RUN
 ---
 
-    baa.pl [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] [--do_not_print_rearrangements] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
+    baa.pl [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
 
 for detailed documenation
 
