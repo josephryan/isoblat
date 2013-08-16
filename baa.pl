@@ -25,7 +25,7 @@ use warnings;
 use Getopt::Long;
 use Pod::Usage;
 
-our $VERSION = 0.10;
+our $VERSION = 0.11;
 our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
 
 # run "baa.pl --help" for detailed info on these parameters
@@ -37,23 +37,14 @@ our $DEFAULT_MAX_GAP_TO_CONSIDER_MISSING = 5;
 # This is not tested, do not use unless you want to test it :-)
 our $BAM_PRESORTED = 0; 
 
-# suffix of file to put rearrangments
-# it creates a new file that has your blat file name + $REARRANGEMENTS_SUF
-# e.g. transcripts_v_assembly.blat.rearrangements
-# set to 0 if you don't want to print the rearrangements
-# or better, use --do_not_print_rearrangements flag on command line
-our $REARRANGEMENTS_SUF = 'rearrangements';
-
 MAIN: {
     my $opt_version = 0;
     my $opt_help = 0;
     my $max_gap_to_consider_missing = $DEFAULT_MIN_TO_COUNT_AS_COVERAGE;
     my $min_to_count_as_coverage = $DEFAULT_MIN_TO_COUNT_AS_COVERAGE; 
-    my $do_not_print_rearrangements = 0;
 
     my $opt_results = Getopt::Long::GetOptions(  "version" => \$opt_version,
                "max_gap_to_consider_missing" => \$max_gap_to_consider_missing,
-               "do_not_print_rearrangements" => \$do_not_print_rearrangements,
                   "min_to_count_as_coverage" => \$min_to_count_as_coverage,
                                       "help" => \$opt_help);
 
@@ -61,7 +52,6 @@ MAIN: {
     pod2usage({-exitval => 0, -verbose => 2}) if $opt_help;
     my $blat   = $ARGV[0] or usage();
     my $fasta  = $ARGV[1] or usage();
-    $REARRANGEMENTS_SUF = 0 if $do_not_print_rearrangements;
     print "# running version $VERSION of baa.pl\n";
     print "# run with this command: $0 @ARGV\n";
     print "# \$max_gap_to_consider_missing = $max_gap_to_consider_missing\n";
@@ -71,7 +61,7 @@ MAIN: {
 
     my $fasta_count  = get_fasta_count($fasta);
     my $rh_dat = get_data($blat,$max_gap_to_consider_missing,$min_to_count_as_coverage);
-    print_stats($rh_dat,$fasta_count,"$blat.$REARRANGEMENTS_SUF");
+    print_stats($rh_dat,$fasta_count);
 }
 
 
@@ -88,7 +78,6 @@ sub get_fasta_count {
 sub print_stats {
     my $rh_dat = shift;
     my $tot = shift;
-    my $r_file = shift;
 
     my $hits = scalar(keys(%{$rh_dat}));
     my $perc = $hits / $tot;
@@ -100,27 +89,14 @@ sub print_stats {
     my $tot_cov = 0;
     my $tot_len = 0;
     my $tot_ctgs = 0;
-    my $potential_rearrangements = 0;
-    open OUT, ">$r_file" or die "cannot open >$r_file:$!" if ($REARRANGEMENTS_SUF);
     foreach my $id (keys %{$rh_dat}) {
         my $coverage = $rh_dat->{$id}->{'covered'} / $rh_dat->{$id}->{'len'};
         $perc_cov_windows{'90'}++ if ($coverage >= 0.9);
         $perc_cov_windows{'80'}++ if ($coverage >= 0.8);
         $perc_cov_windows{'70'}++ if ($coverage >= 0.7);
         $perc_cov_windows{'less'}++ if ($coverage < 0.7);
-        if ($rh_dat->{$id}->{'potential_rearrangements'}) {
-            $potential_rearrangements += $rh_dat->{$id}->{'potential_rearrangements'};
-            print OUT "$id\n" if ($REARRANGEMENTS_SUF);
-        }
         $tot_cov += $rh_dat->{$id}->{'covered'};
         $tot_len += $rh_dat->{$id}->{'len'};
-# Error Check
-#print "\$id = $id\n";
-#if ($tot_cov > $tot_len) {
-#    print "$rh_dat->{$id}->{'covered'}\n";
-#    print "$rh_dat->{$id}->{'len'}\n";
-#    die "$id: $tot_cov > $tot_len";
-#}
 
         my $num_ctgs = $rh_dat->{$id}->{'coverage_count'};
         $counts{'one_ctg'}++     if ($num_ctgs == 1);
@@ -141,9 +117,6 @@ sub print_stats {
 
     $tmp_p = $tot_ctgs / $tot_mapped;
     print "Average number of contigs/scaffolds per mapped transcript: $tmp_p\n";
-
-    print "Number of potential rearrangements = $potential_rearrangements\n\n";
-
 }
 
 sub get_data {
@@ -212,7 +185,6 @@ sub process_query {
 
     my $que = $ra_curr->[0]->[9];
     $rh_dat->{$que}->{'len'} = $ra_curr->[0]->[10];
-    $rh_dat->{$que}->{'potential_rearrangements'} = 0;
     my @covered = ();
     foreach my $ra_f (sort {($b->[12] - $b->[11]) <=> ($a->[12] - $a->[11])} @{$ra_curr}) {
         my $adds_to_coverage = 0;
@@ -228,7 +200,6 @@ sub process_query {
         next unless ($adds_to_coverage >= $min_to_count_as_coverage);
         $rh_dat->{$que}->{'coverage_count'}++;
         if ($rh_dat->{$que}->{'dup_check'}->{$ra_f->[13]}) {
-            $rh_dat->{$que}->{'potential_rearrangements'}++;
         } else {
             push @{$rh_dat->{$que}->{'contigs'}}, $ra_f->[13];
         }
@@ -280,7 +251,7 @@ sub version {
 }
 
 sub usage {
-    die "usage: $0 [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] [--do_not_print_rearrangements] BLAT_FILE FASTA_QUERY_USED_IN_BLAT\n";
+    die "usage: $0 [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT\n";
 }
 
 __END__
@@ -295,7 +266,7 @@ Joseph F. Ryan <josephryan@yahoo.com>
 
 =head1 SYNOPSIS
 
-baa.pl [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] [--do_not_print_rearrangements] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
+baa.pl [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
 
 =head1 BLAT_FILE
 
@@ -340,11 +311,6 @@ if there is a gap at the beginning, end, or in between pairs
 only gaps less than this value will be considered missing
 NOTE: this value does not effect Total "% coverage of all positions"
 
-=item B<--do_not_print_rearrangements>
-by default a file with the suffix '.rearrangements' is printed; this
-file contains a list of transcript identifiers that have strange
-alignments and may indicate mis-arrangements in the assembly
-
 =item B<--help>
 
 Print this manual
@@ -359,46 +325,6 @@ Print the version. Overrides all other options.
 
 This script will parse the output of a Blat (transcriptome v. assembly)
 and generate values which can be used to compare assemblies
-
-=head1 POTENTIAL REARRANGEMENTS
-
-Exons of a transcript are expected to align sequentially to a single
-chromosomal region. Potential rearrangements are regions of an assembly
-where the pattern of alignments of transcripts suggests that the
-alignment is not sequential.
-
-The current algorithm for estimating rearrangements is far from perfect
-One problem is the sorting in the process_query subroutine Blat
-hits are sorted by the coverage of the hit (col 12 - col 13 in blat)
-This can cause the algorithm to evaluate the wrong hit and can subsequently
-inflate the number of potential rearrangements (plus cause errors
-in the estimate of coverage).  However, since the main purpose of the tool
-is to compare assemblies, most of these false-positive rearrangements will
-show up in both assemblies being compared.
-
-This value is also susseptible to the "maxIntron" setting of Blat.  If 
-Blat is run with the default introns longer than 750000 will be flagged
-as a potential rearrangement. 
-
-=head1 REARRANGEMENTS FILE
-
-By default the program will print potential rearrangements to a file
-(with the suffix '.rearrangements). This can be suppressed with the
---do_not_print_rearrangements flag. It is useful to compare the number
-of common reported rearrangements between assemblies.  Also, it can be
-useful to look closely at the distinct rearrangements in each assembly
-to identify possible misassemblies.
-
-Here is a recipe for counting common rearrangments from 2 '.rearrangements'
-files that are the result of 2 baa.pl runs on 2 different assemblies
-
-=over 2
-
-sort ests_v_assembly_1.blat.rearrangements > 1.sorted
-sort ests_v_assembly_2.blat.rearrangements > 2.sorted
-join 1.sorted 2.sorted | wc -l
-
-=back
 
 =head1 BUGS
 
