@@ -21,8 +21,9 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
+use Data::Dumper;
 
-our $VERSION = 0.12;
+our $VERSION = 0.20;
 our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
 
 # run "baa.pl --help" for detailed info on these parameters
@@ -33,6 +34,8 @@ our $DEFAULT_MAX_GAP_TO_CONSIDER_MISSING = 5;
 # blat file into memory and sort
 # This is not tested, do not use unless you want to test it :-)
 our $BAM_PRESORTED = 0; 
+
+our $USE_SCORE = 1;
 
 MAIN: {
     my $opt_version = 0;
@@ -154,6 +157,12 @@ sub get_data {
     return \%data;
 }
 
+#  score = matches + repMatches - misMatches - qNumInsert - tNumInsert;
+sub by_blat_score {
+    ($b->[0] + $b->[2] - $b->[1] - $b->[4] - $b->[6]) <=>
+    ($a->[0] + $a->[2] - $a->[1] - $a->[4] - $a->[6])
+}
+
 sub process_fields {
     my $ra_fields = shift;
     my $ra_current = shift;
@@ -183,7 +192,39 @@ sub process_query {
     my $que = $ra_curr->[0]->[9];
     $rh_dat->{$que}->{'len'} = $ra_curr->[0]->[10];
     my @covered = ();
-    foreach my $ra_f (sort {($b->[12] - $b->[11]) <=> ($a->[12] - $a->[11])} @{$ra_curr}) {
+
+#BEGIN TEST CODE TO DECIDE SORT METHOD
+#my @sorted_sc = sort by_blat_score @{$ra_curr};
+#my @sorted_si = sort {($b->[12] - $b->[11]) <=> ($a->[12] - $a->[11])} @{$ra_curr};
+#print "--------------------------------------------------------\n";
+#for (my $i = 0; $i < @sorted_sc; $i++) {
+#    my $si_diff = $sorted_si[$i]->[12] - $sorted_si[$i]->[11];
+#    my $si_score = $sorted_si[$i]->[0];    
+#    $si_score += $sorted_si[$i]->[2];    
+#    $si_score -= $sorted_si[$i]->[1];    
+#    $si_score -= $sorted_si[$i]->[4];    
+#    $si_score -= $sorted_si[$i]->[6];    
+#    my $sc_diff = $sorted_sc[$i]->[12] - $sorted_sc[$i]->[11];
+#    my $sc_score = $sorted_sc[$i]->[0];    
+#    $sc_score += $sorted_sc[$i]->[2];    
+#    $sc_score -= $sorted_sc[$i]->[1];    
+#    $sc_score -= $sorted_sc[$i]->[4];    
+#    $sc_score -= $sorted_sc[$i]->[6];    
+#    print "\$si_diff = $si_diff ";
+#    print "\$si_score = $si_score ";
+#    print "\$sc_diff = $sc_diff ";
+#    print "\$sc_score = $sc_score \n";
+##    if ($si_diff != $sc_diff) {
+##print Dumper $sorted_si[$i];
+##print Dumper $sorted_sc[$i];
+###        print "$sorted_si[$i]->[0]\n";
+###        print "$sorted_sc[$i]->[0]\n";
+##        exit;
+##    }
+#}
+#END TEST CODE TO DECIDE SORT METHOD
+    foreach my $ra_f (sort by_blat_score @{$ra_curr}) {
+#    foreach my $ra_f (sort {($b->[12] - $b->[11]) <=> ($a->[12] - $a->[11])} @{$ra_curr}) {
         my $adds_to_coverage = 0;
         my @blk_sizes = split ',', $ra_f->[18]; # blockSizes
         my @q_st    = split ',', $ra_f->[19];   # queryStarts
@@ -197,6 +238,7 @@ sub process_query {
         next unless ($adds_to_coverage >= $min_to_count_as_coverage);
         $rh_dat->{$que}->{'coverage_count'}++;
         if ($rh_dat->{$que}->{'dup_check'}->{$ra_f->[13]}) {
+            $rh_dat->{$que}->{'coverage_count'}--;
         } else {
             push @{$rh_dat->{$que}->{'contigs'}}, $ra_f->[13];
         }
