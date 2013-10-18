@@ -40,8 +40,8 @@ You will also want BLAT:
 CITATION
 ------------
 
-Ryan, Joseph F. "Baa. pl: A tool to evaluate de novo genome assemblies with RNA transcripts."
-    arXiv preprint arXiv:1309.2087 (2013).
+    Ryan, Joseph F. "Baa. pl: A tool to evaluate de novo genome assemblies with RNA transcripts."
+        arXiv preprint arXiv:1309.2087 (2013).
 
 
 COPYRIGHT AND LICENSE
