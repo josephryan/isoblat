@@ -1,7 +1,7 @@
 baa.pl
 ======
 
-use RNA transcripts to assess assembly - this program parses the output of a BLAT run of transcriptome vs. a genome
+use RNA transcripts to assess assembly - parses BLAT output of transcriptome vs. genome
 
 The output looks something like:
 
@@ -31,11 +31,18 @@ for detailed documenation
 DEPENDENCIES
 ------------
 
-This module requires Perl
+This program requires Perl
 
 You will also want BLAT:
 
     http://users.soe.ucsc.edu/~kent/src/
+
+CITATION
+------------
+
+Ryan, Joseph F. "Baa. pl: A tool to evaluate de novo genome assemblies with RNA transcripts."
+    arXiv preprint arXiv:1309.2087 (2013).
+
 
 COPYRIGHT AND LICENSE
 ------------
