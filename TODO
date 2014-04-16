@@ -1,0 +1,4 @@
+* add proper formatted options (do not use @ARGV directly)
+* throw error if ratio is greater than 1
+* perhaps check to see that the second argument is truly RNA file
+
