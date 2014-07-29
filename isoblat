@@ -1,6 +1,6 @@
 #!perl
 
-# baa.pl 
+# isoblat
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@ use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper;
 
-our $VERSION = 0.20;
+our $VERSION = 0.30;
 our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
 
-# run "baa.pl --help" for detailed info on these parameters
+# run "isoblat --help" for detailed info on these parameters
 our $DEFAULT_MIN_TO_COUNT_AS_COVERAGE = 5;
 our $DEFAULT_MAX_GAP_TO_CONSIDER_MISSING = 5;
 
@@ -52,7 +52,7 @@ MAIN: {
     pod2usage({-exitval => 0, -verbose => 2}) if $opt_help;
     my $blat   = $ARGV[0] or usage();
     my $fasta  = $ARGV[1] or usage();
-    print "# running version $VERSION of baa.pl\n";
+    print "# running version $VERSION of isoblat\n";
     print "# run with this command: $0 @ARGV\n";
     print "# \$max_gap_to_consider_missing = $max_gap_to_consider_missing\n";
     print "# \$min_to_count_as_coverage    = $min_to_count_as_coverage\n";
@@ -286,7 +286,7 @@ sub _set_length {
 }
 
 sub version {
-    die "baa.pl $VERSION\n";
+    die "isoblat $VERSION\n";
 }
 
 sub usage {
@@ -297,7 +297,7 @@ __END__
 
 =head1 NAME
 
-B<baa.pl> - use Blat to Assess an Assembly
+B<isoblat> - use Blat to Assess an Assembly
 
 =head1 AUTHOR
 
@@ -305,7 +305,7 @@ Joseph F. Ryan <josephryan@yahoo.com>
 
 =head1 SYNOPSIS
 
-baa.pl [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
+isoblat [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
 
 =head1 BLAT_FILE
 

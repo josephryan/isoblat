@@ -1,5 +1,5 @@
-baa.pl
-======
+isoblat
+=======
 
 use RNA transcripts to assess assembly - parses BLAT output of transcriptome vs. genome
 
@@ -22,12 +22,12 @@ To install this script and documentation type the following:
 RUN
 ---
 
-    baa.pl [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
+    isoblat [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
 
 DOCUMENTATION
 -------------
 
-    perldoc baa.pl
+    perldoc isoblat
 
 DEPENDENCIES
 ------------
