@@ -13,7 +13,7 @@ The output looks something like:
 INSTALLATION
 ------------
 
-To install this script and documentation type the following:
+To install this program and documentation type the following:
 
     perl Makefile.PL
     make
