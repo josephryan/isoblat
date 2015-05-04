@@ -24,7 +24,7 @@ use Pod::Usage;
 use Data::Dumper;
 
 our $VERSION = 0.30;
-our $AUTHOR  = 'Joseph F. Ryan <jfryan@yahoo.com>';
+our $AUTHOR  = 'Joseph F. Ryan <joseph.ryan@whitney.ufl.edu>';
 
 # run "isoblat --help" for detailed info on these parameters
 our $DEFAULT_MIN_TO_COUNT_AS_COVERAGE = 5;
