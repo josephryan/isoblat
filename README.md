@@ -28,7 +28,7 @@ To install without root privelages try:
 RUN
 ---
 
-    isoblat [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
+    isoblat [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] [--pblat] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
 
 DOCUMENTATION
 -------------
