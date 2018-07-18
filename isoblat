@@ -23,7 +23,7 @@ use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper;
 
-our $VERSION = 0.30;
+our $VERSION = 0.31;
 our $AUTHOR  = 'Joseph F. Ryan <joseph.ryan@whitney.ufl.edu>';
 
 # run "isoblat --help" for detailed info on these parameters
@@ -42,8 +42,10 @@ MAIN: {
     my $opt_help = 0;
     my $max_gap_to_consider_missing = $DEFAULT_MIN_TO_COUNT_AS_COVERAGE;
     my $min_to_count_as_coverage = $DEFAULT_MIN_TO_COUNT_AS_COVERAGE; 
+    my $pblat = 0;
 
     my $opt_results = Getopt::Long::GetOptions(  "version" => \$opt_version,
+                                     "pblat" => \$pblat,
                "max_gap_to_consider_missing" => \$max_gap_to_consider_missing,
                   "min_to_count_as_coverage" => \$min_to_count_as_coverage,
                                       "help" => \$opt_help);
@@ -60,7 +62,7 @@ MAIN: {
     print "\n";
 
     my $fasta_count  = get_fasta_count($fasta);
-    my $rh_dat = get_data($blat,$max_gap_to_consider_missing,$min_to_count_as_coverage);
+    my $rh_dat = get_data($blat,$max_gap_to_consider_missing,$min_to_count_as_coverage,$pblat);
     print_stats($rh_dat,$fasta_count);
 }
 
@@ -123,14 +125,17 @@ sub get_data {
     my $file = shift;
     my $max_gap_to_consider_missing = shift;
     my $min_to_count_as_coverage = shift;
+    my $pblat = shift;
 
     my %data = ();
     open IN, $file or die "cannot open $file:$!";
-    my $first_line = <IN>;
-    unless ($first_line =~ m/^psLayout version 3\s*$/) {
-        die "expecting version 3 got: $first_line"
+    unless ($pblat) {
+        my $first_line = <IN>;
+        unless ($first_line =~ m/^psLayout version 3\s*$/) {
+            die "expecting version 3 got: $first_line\n\nuse --pblat if BLAT file was generated with pblat";
+        for (0..3) { <IN> }; # remove first 4 lines
+        }
     }
-    for (0..3) { <IN> }; # remove first 4 lines
     my @current = ();
     my $curr_que = '';
     if ($BAM_PRESORTED) {
@@ -290,7 +295,7 @@ sub version {
 }
 
 sub usage {
-    die "usage: $0 [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT\n";
+    die "usage: $0 [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] [--pblat] BLAT_FILE FASTA_QUERY_USED_IN_BLAT\n";
 }
 
 __END__
@@ -305,7 +310,7 @@ Joseph F. Ryan <josephryan@yahoo.com>
 
 =head1 SYNOPSIS
 
-isoblat [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
+isoblat [--version] [--help] [--max_gap_to_consider_missing=INT] [--min_to_count_as_coverage=INT] [--pblat] BLAT_FILE FASTA_QUERY_USED_IN_BLAT
 
 =head1 BLAT_FILE
 
@@ -335,6 +340,11 @@ this file is the fasta file used in the Blat search
 =head1 OPTIONS
 
 =over 2
+
+=item B<--pblat>
+
+use this if pblat (parallel blat) instead of BLAT was used 
+(no header in pblat output)
 
 =item B<--min_to_count_as_coverage>
 
